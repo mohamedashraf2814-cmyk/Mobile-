@@ -183,7 +183,26 @@ T("Cloud-first development means developers must manage more complex infrastruct
 T("The document recommends starting by mastering one cross-platform framework like Flutter or React Native.",true,"صح."),
 T("The document advises experimenting with AI integration and focusing on solving real user problems.",true,"صح."),
 T("The future belongs to developers who combine technical expertise with user empathy and innovative thinking.",true,"صح."),
-T("The document advises mastering every framework at the same time before starting.",false,"غلط: بتنصح تبدأ بإتقان framework واحد.")
+T("The document advises mastering every framework at the same time before starting.",false,"غلط: بتنصح تبدأ بإتقان framework واحد."),
+// Added after full line-by-line audit
+T("Planning & Architecture includes establishing detailed project timelines, assembling cross-functional teams, and creating comprehensive project roadmaps.",true,"ده محتوى مرحلة التخطيط."),
+T("Swift's modern syntax reduces common programming errors and accelerates development cycles.",true,"حسب الملف."),
+T("JavaScript's ubiquity in web development translates well to mobile through frameworks like React Native and Ionic.",true,"صح."),
+T("Firebase offers real-time database synchronization, user authentication, cloud storage, and analytics in a unified platform.",true,"صح."),
+T("Cloud-based databases, authentication systems, and storage solutions are examples of cloud services.",true,"صح."),
+T("PWAs offer app-like experiences through web browsers with offline functionality, push notifications, and device integration.",true,"صح."),
+T("Flutter supports applications on smartphones, tablets, laptops, smart displays, and automotive systems.",true,"من كود واحد."),
+T("Modern healthcare apps use AI and cloud computing to provide remote diagnostic capabilities previously available only in clinical settings.",true,"صح."),
+T("Mobile apps handle sensitive user data, so robust security measures are required throughout the development lifecycle.",true,"صح."),
+T("Regular security audits and penetration testing are essential.",true,"مع الالتزام بـ GDPR و CCPA."),
+T("Following platform-specific security guidelines is part of security best practices.",true,"صح."),
+T("Mobile users expect instant responsiveness while conserving battery life and data usage.",true,"ده سبب الاهتمام بتحسين الأداء."),
+T("Background processing limitations are part of performance optimization.",true,"مع الـ memory management و image optimization و lazy loading."),
+T("Performance monitoring tools are used to identify bottlenecks.",true,"صح."),
+T("Robust analytics help identify user behavior patterns, feature usage, and potential issues.",true,"جزء من Continuous Improvement Cycle."),
+T("Mobile app success requires ongoing iteration based on user feedback, analytics data, and changing market conditions.",true,"صح."),
+T("Developers who master both current technologies and emerging trends will shape the future of digital experiences.",true,"من صفحة Your Opportunity Awaits."),
+T("The document mentions building a social platform, revolutionizing healthcare, or creating productivity tools as examples of opportunities.",true,"صح.")
 ];
 const MCQ=[
 // Page 1
@@ -273,7 +292,19 @@ M("Cloud-First Development relies on:",["Serverless architectures, edge computin
 // Page 10
 M("What does the document recommend as a first step?",["Master one cross-platform framework like Flutter or React Native","Learn every framework at once","Avoid AI integration","Only build native apps"],"صح."),
 M("Who does the future belong to?",["Developers combining technical expertise with user empathy","Only AI tools","Only large companies","Only native specialists"],"حسب الملف."),
-M("The document advises focusing on solving:",["Real user problems","Only visual effects","Only internal tools","Marketing slogans"],"صح.")
+M("The document advises focusing on solving:",["Real user problems","Only visual effects","Only internal tools","Marketing slogans"],"صح."),
+// Added after full line-by-line audit
+M("Which phase includes assembling cross-functional development teams and creating project roadmaps?",["Planning & Architecture","Strategy & Discovery","Testing & Deployment","Design & Prototyping"],"المرحلة 2."),
+M("What do mobile users expect from apps, according to the performance section?",["Instant responsiveness while conserving battery life and data usage","Maximum battery drain","Slow but feature-rich apps","Only offline apps"],"صح."),
+M("Which tools are used to identify performance bottlenecks?",["Performance monitoring tools","Style guides","Wireframes","Market research"],"صح."),
+M("Which activities are essential for security besides secure coding?",["Regular security audits and penetration testing","Skipping updates","Disabling encryption","Removing HTTPS"],"صح."),
+M("What do robust analytics help identify?",["User behavior patterns, feature usage, and potential issues","Only app store ratings","Only server costs","Only competitor prices"],"صح."),
+M("Which features do PWAs offer?",["Offline functionality, push notifications, and device integration","No offline support","Only desktop use","Native-only APIs"],"صح."),
+M("Which devices can Flutter apps run on according to the document?",["Smartphones, tablets, laptops, smart displays, and automotive systems","Only smartphones","Only tablets","Only wearables"],"صح."),
+M("Modern healthcare apps provide remote diagnostic capabilities that were previously available:",["Only in clinical settings","Only online","Only in pharmacies","Only in hospitals abroad"],"صح."),
+M("Which are the example opportunities mentioned at the end of the document?",["Social platform, healthcare, and productivity tools","Only games","Only banking","Only hardware"],"صح."),
+M("Sensitive user data in mobile apps requires:",["Robust security measures throughout the development lifecycle","Security only at launch","No special handling","Only a privacy policy"],"صح."),
+M("What does Swift's modern syntax do?",["Reduces common programming errors and accelerates development cycles","Adds static typing to JavaScript","Shares business logic across platforms","Runs only on Android"],"صح.")
 ];
 function sh(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
 function build(m){const t=TF.map(x=>({...x}));
