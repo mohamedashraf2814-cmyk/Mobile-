@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile Applications Quiz</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1c2233;--mut:#6b7385;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--line:#e3e6ef}
+@media(prefers-color-scheme:dark){:root{--bg:#10131c;--card:#1a1f2d;--ink:#eef0f6;--mut:#9aa3b8;--pri:#818cf8;--ok:#4ade80;--bad:#f87171;--line:#2b3246}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:1.6rem;margin:8px 0 4px}
+.sub{color:var(--mut);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}
+.tab{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600}
+.tab.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--pri);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--mut);font-size:.9rem;margin-bottom:14px}
+.q{font-size:1.15rem;font-weight:600;margin:0 0 16px}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin-bottom:10px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--pri)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
+.fb{margin:12px 0;padding:12px;border-radius:10px;background:color-mix(in srgb,var(--pri) 10%,transparent);font-size:.95rem}
+.next{width:100%;padding:13px;border:0;border-radius:10px;background:var(--pri);color:#fff;font-weight:600}
+.big{font-size:3rem;font-weight:700;text-align:center;margin:10px 0}
+.center{text-align:center}
+.rev{padding:10px 0;border-top:1px solid var(--line);font-size:.95rem}
+.rev b.ok{color:var(--ok)}.rev b.bad{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📱 Mobile Applications Quiz</h1>
+  <p class="sub">Technologies &amp; Developing — True/False and Multiple Choice</p>
+  <div class="tabs">
+    <button class="tab on" data-m="tf">True / False</button>
+    <button class="tab" data-m="mcq">Multiple Choice</button>
+    <button class="tab" data-m="all">All</button>
+  </div>
+  <label style="display:block;margin:-4px 0 14px;color:var(--mut);font-size:.9rem"><input type="checkbox" id="shuf"> Shuffle question order (default: same order as the file, page 1 → 10)</label>
+  <div id="app"></div>
+</div>
+<script>
+const T=(q,a,e)=>({t:'tf',q,a,e});
+const M=(q,o,e)=>({t:'mcq',q,o,e});
+const TF=[
+// Page 1
+T("Mobile app development is the process of creating software for smartphones, tablets, and digital assistants.",true,"ده تعريف تطوير تطبيقات الموبايل."),
+T("The process covers only coding; design and user experience are not part of it.",false,"غلط: بتشمل الفكرة لحد النشر، وبتحتاج مهارات تقنية ومبادئ تجربة المستخدم (UX)."),
+T("Android and iOS together command over 99% of the global mobile market.",true,"النظامين دول هما المسيطرين على السوق."),
+T("Modern development increasingly focuses on cross-platform solutions that can serve multiple ecosystems.",true,"الاتجاه الحديث ناحية الـ cross-platform."),
+T("Native apps are built for multiple platforms using one common language.",false,"غلط: الـ Native بيتبني لمنصة واحدة بلغة خاصة بيها زي Swift لـ iOS و Kotlin لـ Android."),
+T("Native apps offer optimal performance and full access to device features.",true,"ده أهم ميزة للـ Native."),
+T("Web-based apps are accessed through mobile browsers and built with HTML5, CSS, and JavaScript.",true,"صح، وهي مستقلة عن المنصة."),
+T("Web-based apps have full access to native device features.",false,"غلط: وصولها لخصائص الجهاز محدود."),
+T("Hybrid apps use frameworks like React Native or Flutter to achieve near-native performance.",true,"الـ Hybrid بتجمع بين Native و Web."),
+T("The document cites Instagram, Spotify, and Google Maps as popular examples of mobile apps.",true,"أمثلة على قوة تطوير التطبيقات."),
+T("Instagram is described as a photo-sharing platform with over 2 billion users.",true,"صح حسب الملف."),
+// Page 2
+T("The mobile app development lifecycle has five phases.",true,"المراحل: Strategy، Planning، Design، Development، Testing."),
+T("Strategy & Discovery includes defining objectives, identifying target audience demographics, and conducting market research.",true,"وكمان بتاخد قرارات المنصة."),
+T("Strategy & Discovery aligns business goals with user needs and technical feasibility.",true,"دي أساس النجاح."),
+T("Planning & Architecture is Phase 3 of the lifecycle.",false,"غلط: هي المرحلة 2. المرحلة 3 هي Design & Prototyping."),
+T("Selecting the technology stack happens in the Planning & Architecture phase.",true,"مع الجداول الزمنية وتجميع الفرق وخرائط الطريق."),
+T("Risk assessment and resource allocation are crucial during Design & Prototyping.",false,"غلط: دول في مرحلة Planning & Architecture."),
+T("Design & Prototyping includes UX/UI wireframes and interactive prototypes.",true,"وبتركز على تجربة مستخدم سلسة."),
+T("Design systems and style guides ensure consistency across app interfaces and interactions.",true,"ده دورهم في مرحلة التصميم."),
+T("Development & Integration includes front-end coding, back-end services, and third-party API integration.",true,"وكمان مزامنة البيانات."),
+T("The Development & Integration phase transforms designs into functional, performant applications.",true,"صح."),
+T("Testing includes functional, performance, and security testing.",true,"ده الـ QA الشامل."),
+T("Deployment to app stores follows platform-specific guidelines.",true,"ومعاه التحضير لمراقبة ما بعد الإطلاق والتحديثات."),
+T("Each phase requires coordination between designers, developers, product managers, and stakeholders.",true,"علشان المنتج يحقق توقعات المستخدمين وأهداف العمل."),
+T("Agile methodologies allow iterative improvements throughout the process.",true,"صح."),
+// Page 3
+T("The front-end is the user-facing layer that determines how users interact with the app.",true,"ده تعريف الـ front-end."),
+T("Native development remains the gold standard for performance-critical applications.",true,"حسب الملف."),
+T("Swift provides memory safety and modern syntax.",true,"Swift لـ iOS."),
+T("Kotlin offers concise code and full Java interoperability.",true,"Kotlin لـ Android."),
+T("Native languages provide complete access to platform-specific features and APIs.",true,"صح."),
+T("Cross-platform frameworks enable code reuse across platforms.",true,"ده سبب انتشارها."),
+T("Flutter uses the Dart language and provides near-native performance with a single codebase.",true,"صح."),
+T("React Native uses the Dart language.",false,"غلط: React Native بتستخدم JavaScript و React."),
+T("React Native allows web developers to transition more easily into mobile development.",true,"لأنها بتعتمد على مفاهيم React."),
+T("Swift is JetBrains' concise language.",false,"غلط: Swift من Apple. اللي من JetBrains هي Kotlin."),
+T("Swift features automatic memory management and powerful error handling.",true,"وهي لغة سريعة وآمنة ومعبرة."),
+T("Kotlin is 100% interoperable with Java and reduces boilerplate code.",true,"صح."),
+T("Flutter is Google's UI toolkit with customizable widgets.",true,"بتعمل تطبيقات native شكلها حلو من كود واحد."),
+T("React Native is Facebook's framework that allows rapid development with code reuse.",true,"وبتوصل لخصائص المنصة الـ native."),
+T("A single codebase can reduce development time by up to 50%.",true,"حسب الملف."),
+T("Cross-platform benefits include faster time-to-market, wider audience reach, and simplified maintenance.",true,"كلهم فوايد."),
+T("Native development should be considered for apps requiring intensive platform-specific features or maximum performance.",true,"ده الاستثناء للـ cross-platform."),
+// Page 4
+T("Modern mobile applications rarely operate in isolation and require back-end integration.",true,"للمحتوى الديناميكي ومزامنة البيانات."),
+T("The back-end is described as the invisible backbone powering features from authentication to real-time updates.",true,"صح."),
+T("RESTful APIs and GraphQL endpoints enable efficient data exchange between apps and servers.",true,"وبتدعم الاستعلام المرن والتحديثات اللحظية."),
+T("SDKs simplify integration of services like push notifications, analytics, payments, and social media.",true,"وبتسرّع الجداول الزمنية للتطوير."),
+T("Cloud services provide scalable infrastructure that automatically handles user growth.",true,"قواعد بيانات ومصادقة وتخزين."),
+T("Firebase is Google's backend-as-a-service (BaaS) platform.",true,"صح."),
+T("Firebase does not offer user authentication.",false,"غلط: بتوفر المصادقة وإدارة المستخدمين مع social login."),
+T("Firebase real-time syncing updates app content instantly across all connected devices.",true,"من مميزاتها الأساسية."),
+T("Firebase cloud functions execute server-side logic without managing infrastructure.",true,"صح."),
+T("Firebase makes developers focus on back-end operations instead of front-end user experience.",false,"غلط: بتخلي المطور يركز على الـ front-end وهي بتتولى عمليات الـ server."),
+T("Back-end integration requires careful consideration of data security, API rate limiting, offline functionality, and error handling.",true,"صح."),
+T("Modern apps must gracefully handle network connectivity issues while maintaining data integrity.",true,"علشان جودة تجربة المستخدم."),
+// Page 5
+T("Swift was introduced by Apple in 2014.",true,"وبتمثل نقلة في تطوير iOS."),
+T("Swift prioritizes safety through optional types and automatic memory management.",true,"صح."),
+T("Swift delivers performance that rivals C++.",true,"حسب الملف."),
+T("Swift's playgrounds feature enables rapid prototyping and learning.",true,"بتناسب المبتدئين والخبراء."),
+T("Kotlin is Google's preferred language for Android development.",true,"وبتعالج عيوب Java."),
+T("Kotlin's concise syntax reduces boilerplate code by up to 40%.",true,"صح."),
+T("Kotlin's null safety features prevent common runtime crashes.",true,"صح."),
+T("Kotlin's coroutines simplify asynchronous programming.",true,"وده ضروري لتطبيقات سريعة الاستجابة."),
+T("Kotlin Multiplatform Mobile enables shared business logic across iOS and Android.",true,"صح."),
+T("JavaScript is used for mobile development through frameworks like React Native and Ionic.",true,"صح."),
+T("TypeScript adds static typing to JavaScript, catching errors at compile time.",true,"وبتحسن قابلية الصيانة."),
+T("JavaScript/TypeScript let web developers reuse existing skills, reducing learning curves and costs.",true,"صح."),
+T("C++ is critical for performance-intensive applications, game development, and complex algorithms.",true,"محتاجين فيها أقصى سرعة."),
+T("HTML5 powers Progressive Web Apps and hybrid applications.",true,"بواجهات responsive."),
+T("Dart is Flutter's foundation language, optimized for UI development with fast compilation and smooth animations.",true,"صح."),
+T("Python has a growing presence in mobile backend services and AI/ML integration.",true,"صح."),
+T("Python is the main language for building native iOS apps.",false,"غلط: لغة iOS هي Swift. بايثون للـ backend والـ AI/ML."),
+// Page 6
+T("AI enables hyper-personalized content recommendations, intelligent chatbots, and automated task management.",true,"عن طريق predictive analytics و NLP و ML."),
+T("AI enables apps to learn user behavior patterns and adapt interfaces dynamically.",true,"تجربة فريدة لكل مستخدم."),
+T("PWAs bridge the gap between web and native apps.",true,"بتدي تجربة شبه التطبيقات من المتصفح."),
+T("Twitter, Pinterest, and Starbucks have adopted PWAs to reduce development costs.",true,"صح."),
+T("PWAs load instantly, work offline, and update automatically.",true,"صح."),
+T("PWAs require manual updates and cannot send push notifications.",false,"غلط: بتتحدث أوتوماتيك وبتدعم push notifications."),
+T("Mobile apps increasingly serve as control hubs for IoT devices and wearables.",true,"زي الساعات الذكية والمنزل الذكي."),
+T("Health and fitness apps sync with smartwatches and medical devices.",true,"صح."),
+T("Flutter has expanded beyond mobile to support web, desktop, and embedded devices.",true,"من كود واحد."),
+T("BMW, eBay, and Alibaba are cited as Flutter adopters.",true,"دليل على جاهزيتها للشركات (enterprise readiness)."),
+T("Flutter is limited to smartphones only.",false,"غلط: بتدعم كمان laptops وشاشات ذكية وأنظمة السيارات."),
+T("AR capabilities are becoming standard in shopping, education, and gaming apps through ARKit and ARCore.",true,"صح."),
+T("5G enables real-time cloud processing and enhanced mobile experiences.",true,"بسبب سرعة الاتصال العالية."),
+T("Voice interfaces are limited to smart speakers only.",false,"غلط: بقت منتشرة في تطبيقات الموبايل العادية."),
+T("Blockchain integration includes cryptocurrency payments, NFT marketplaces, and decentralized app functionality.",true,"صح."),
+// Page 7
+T("Google Pay used Flutter to create a unified payment experience across Android and iOS.",true,"بكود واحد."),
+T("Using Flutter reduced Google Pay's development time by 60%.",true,"مع الحفاظ على تحسينات الأمان والأداء الخاصة بكل منصة."),
+T("Google Pay supports over 150 million users worldwide.",true,"صح."),
+T("Flutter's widget-based architecture allowed Google Pay to build consistent UI components for different screen sizes.",true,"صح."),
+T("TikTok has grown to over 1 billion users.",true,"بفضل بنية API قوية."),
+T("TikTok processes millions of video uploads daily and delivers personalized content via recommendation algorithms.",true,"صح."),
+T("TikTok uses a microservices architecture.",true,"للمعالجة اللحظية للفيديو والتفاعل الاجتماعي والتوزيع العالمي."),
+T("TikTok uses a monolithic architecture.",false,"غلط: بتستخدم microservices."),
+T("TikTok's API design handles massive traffic spikes while maintaining sub-second response times.",true,"صح."),
+T("Ada Health and Babylon Health use machine learning trained on millions of medical cases.",true,"لتقييمات صحية مبدئية."),
+T("Cloud-based backend services in healthcare apps ensure patient data privacy and let providers monitor patients remotely.",true,"صح."),
+T("Key success factors include strategic technology choices, user-centered design, scalable architecture, and continuous innovation.",true,"صح."),
+T("The most impactful mobile apps solve real user problems.",true,"مع استخدام تقنيات متقدمة."),
+// Page 8
+T("The Android ecosystem encompasses thousands of device models with varying screen sizes, hardware, and Android versions.",true,"ده معنى Device Fragmentation."),
+T("iOS has no fragmentation challenges at all.",false,"غلط: iOS أكثر تحكمًا لكن لسه فيه موديلات iPhone و iPad وكثافات شاشات وإصدارات مختلفة."),
+T("Responsive design, device testing matrices, and adaptive layouts help manage device fragmentation.",true,"صح."),
+T("Progressive enhancement ensures core functionality works on all devices while advanced features enhance capable hardware.",true,"صح."),
+T("Security best practices include end-to-end encryption and HTTPS with certificate pinning.",true,"وإتباع إرشادات الأمان الخاصة بالمنصة."),
+T("Compliance with regulations like GDPR and CCPA is essential.",true,"مع audits و penetration testing دورية."),
+T("Secure coding practices prevent injection attacks and insecure data storage.",true,"صح."),
+T("Performance optimization includes efficient memory management, image optimization, and lazy loading.",true,"وكمان قيود المعالجة في الخلفية."),
+T("Successful apps implement caching strategies and minimize network requests.",true,"ويستخدموا أدوات مراقبة الأداء."),
+T("Increasing CPU-intensive operations is a battery optimization technique.",false,"غلط: المطلوب تقليل العمليات الثقيلة على الـ CPU وإدارة خدمات الموقع بحكمة."),
+T("A/B testing frameworks enable data-driven design decisions.",true,"صح."),
+T("Crash reporting tools facilitate rapid bug resolution.",true,"صح."),
+T("Regular updates maintain compatibility with new OS versions and introduce engagement-boosting features.",true,"جزء من دورة التحسين المستمر."),
+T("Espresso is used for Android testing and XCTest for iOS testing.",true,"صح."),
+T("Firebase Performance, New Relic Mobile, and Crashlytics are performance monitoring tools.",true,"صح."),
+T("The OWASP Mobile Security Testing Guide is listed among security tools.",true,"مع static analysis tools."),
+T("Mixpanel is a testing framework.",false,"غلط: Mixpanel منصة تحليلات (Analytics) زي Amplitude و Google Analytics for Firebase."),
+// Page 9
+T("Mobile apps are evolving into digital life hubs that integrate work, health, finance, and entertainment.",true,"صح."),
+T("Future apps will provide continuous handoff and synchronized states across smartphones, tablets, smartwatches, AR glasses, and IoT devices.",true,"ده Cross-Device Ecosystems."),
+T("Immersive interfaces will incorporate AR, VR, voice control, and gesture recognition.",true,"صح."),
+T("Enhanced developer tools include AI-assisted coding, low-code platforms, and automated testing frameworks.",true,"لتسريع التطوير وتحسين الجودة."),
+T("Cloud-first development means developers must manage more complex infrastructure.",false,"غلط: serverless و edge computing و AI-as-a-Service بتخلي المطور يبني من غير ما يدير بنية معقدة."),
+// Page 10
+T("The document recommends starting by mastering one cross-platform framework like Flutter or React Native.",true,"صح."),
+T("The document advises experimenting with AI integration and focusing on solving real user problems.",true,"صح."),
+T("The future belongs to developers who combine technical expertise with user empathy and innovative thinking.",true,"صح."),
+T("The document advises mastering every framework at the same time before starting.",false,"غلط: بتنصح تبدأ بإتقان framework واحد.")
+];
+const MCQ=[
+// Page 1
+M("Which two operating systems command over 99% of the global mobile market?",["Android and iOS","Android and Windows","iOS and Linux","Windows and Linux"],"Android و iOS."),
+M("Which language is used for native iOS apps?",["Swift","Kotlin","Dart","HTML5"],"Swift لـ iOS و Kotlin لـ Android."),
+M("Which app type is accessed through mobile browsers using HTML5, CSS, and JavaScript?",["Web-Based","Native","Hybrid","Embedded"],"وهي platform-independent."),
+M("Which app type combines elements of native and web apps?",["Hybrid","Native","Web-Based","Desktop"],"باستخدام React Native أو Flutter."),
+M("Instagram is mentioned with how many users?",["Over 2 billion","Over 1 billion","Over 150 million","Over 500 million"],"حسب الملف."),
+M("Google Maps is mentioned as transforming:",["Navigation and location-based services","Music streaming","Photo sharing","Mobile payments"],"صح."),
+M("Which app is described as revolutionizing how we consume audio content?",["Spotify","Instagram","TikTok","Google Pay"],"Spotify خدمة بث موسيقى."),
+// Page 2
+M("How many phases are in the mobile app development lifecycle?",["5","3","4","7"],"من Strategy & Discovery لحد Testing & Deployment."),
+M("Which is the first phase?",["Strategy & Discovery","Planning & Architecture","Design & Prototyping","Development & Integration"],"بتحدد الأهداف والجمهور والمنصة."),
+M("In which phase is the technology stack selected?",["Planning & Architecture","Strategy & Discovery","Testing & Deployment","Design & Prototyping"],"المرحلة 2."),
+M("Which phase includes risk assessment and resource allocation?",["Planning & Architecture","Design & Prototyping","Development & Integration","Testing & Deployment"],"مهمة جدًا في مرحلة التخطيط."),
+M("In which phase are UX/UI wireframes and interactive prototypes created?",["Design & Prototyping","Planning & Architecture","Development & Integration","Strategy & Discovery"],"المرحلة 3."),
+M("What ensures consistency across app interfaces and interactions?",["Design systems and style guides","Cloud functions","Lazy loading","Certificate pinning"],"بتتحدد في مرحلة التصميم."),
+M("In which phase are third-party APIs integrated?",["Development & Integration","Strategy & Discovery","Design & Prototyping","Planning & Architecture"],"المرحلة 4."),
+M("Which phase includes QA testing, app store deployment, and post-launch monitoring?",["Testing & Deployment","Development & Integration","Planning & Architecture","Design & Prototyping"],"المرحلة 5."),
+M("Which methodologies allow iterative improvements throughout the process?",["Agile","Waterfall only","Ad hoc","Big bang"],"الـ agile الحديثة."),
+// Page 3
+M("What remains the gold standard for performance-critical applications?",["Native development","Web-based apps","PWAs","Low-code platforms"],"حسب الملف."),
+M("Swift for iOS provides:",["Memory safety and modern syntax","Cross-platform code reuse","Server-side logic","Static typing for JavaScript"],"صح."),
+M("Which company created Kotlin?",["JetBrains","Google","Apple","Facebook"],"JetBrains، وجوجل بتفضلها لأندرويد."),
+M("Who created Flutter?",["Google","Facebook","Apple","JetBrains"],"Google's UI toolkit."),
+M("Who created React Native?",["Facebook","Google","Apple","JetBrains"],"بتعتمد على React و JavaScript."),
+M("Which framework makes it easier for web developers to move into mobile development?",["React Native","Swift","Kotlin","Espresso"],"لأنها بتستخدم مفاهيم React."),
+M("A single codebase can reduce development time by up to:",["50%","10%","25%","90%"],"حسب الملف."),
+M("Which is NOT listed as a cross-platform benefit?",["Always the best performance for intensive platform-specific features","Faster time-to-market","Wider audience reach","Simplified maintenance"],"الملف بيقول فكّر في Native للتطبيقات اللي محتاجة أداء أقصى."),
+// Page 4
+M("How is the back-end described?",["The invisible backbone","The user-facing layer","The design phase","A testing framework"],"بتشغل المصادقة والتحديثات اللحظية."),
+M("Which technologies enable efficient data exchange between apps and servers?",["RESTful APIs and GraphQL","HTML5 and CSS","Swift and Kotlin","ARKit and ARCore"],"API Integration."),
+M("What does SDK stand for?",["Software Development Kit","System Design Key","Secure Data Kernel","Server Deployment Kit"],"بتبسّط دمج الخدمات المعقدة."),
+M("Cloud services provide:",["Scalable infrastructure that handles user growth automatically","Only UI components","Only app store deployment","Only analytics"],"قواعد بيانات ومصادقة وتخزين."),
+M("Firebase is an example of:",["Backend-as-a-Service (BaaS)","A native language","A testing framework","An AR toolkit"],"من Google."),
+M("What do Firebase cloud functions do?",["Execute server-side logic without managing infrastructure","Design wireframes","Compile Swift code","Encrypt the UI"],"صح."),
+M("Which is listed as a back-end integration consideration?",["API rate limiting","Logo color","App icon size","Font choice"],"مع data security و offline functionality و error handling."),
+// Page 5
+M("When was Swift introduced?",["2014","2008","2010","2017"],"حسب الملف."),
+M("Swift's performance is said to rival:",["C++","Java","Python","JavaScript"],"صح."),
+M("Which Swift feature enables rapid prototyping and learning?",["Playgrounds","Coroutines","Widgets","Cloud functions"],"صح."),
+M("Kotlin reduces boilerplate code by up to:",["40%","10%","60%","90%"],"حسب الملف."),
+M("Which Kotlin feature prevents common runtime crashes?",["Null safety","Playgrounds","Widgets","Hot reload"],"صح."),
+M("Kotlin Multiplatform Mobile enables:",["Shared business logic across iOS and Android","Only Android UI","Web-only apps","Voice control"],"صح."),
+M("Which frameworks bring JavaScript to mobile?",["React Native and Ionic","Espresso and XCTest","Firebase and Mixpanel","ARKit and ARCore"],"صح."),
+M("TypeScript adds what to JavaScript?",["Static typing","Garbage collection","A GUI toolkit","Coroutines"],"بتكشف الأخطاء وقت الـ compile."),
+M("HTML5 is used to power:",["PWAs and hybrid applications","Only native iOS apps","Only desktop apps","Only the backend"],"بواجهات responsive."),
+M("Python has a growing presence in:",["Mobile backend services and AI/ML integration","Native iOS UI","Android UI toolkits","AR hardware"],"صح."),
+M("Which language is optimized for UI development with fast compilation and smooth animations?",["Dart","C++","Python","Swift"],"Dart أساس Flutter."),
+// Page 6
+M("Which trend uses predictive analytics, NLP, and machine learning?",["AI-Powered Personalization","IoT & Wearables","PWAs","Blockchain"],"لتوصيات مخصصة وChatbots."),
+M("Which companies adopted PWAs?",["Twitter, Pinterest, Starbucks","BMW, eBay, Alibaba","Ada Health, Babylon Health","Google Pay, TikTok"],"لتقليل التكلفة."),
+M("Which companies are cited as Flutter adopters?",["BMW, eBay, Alibaba","Twitter, Pinterest, Starbucks","Instagram, Spotify, Google Maps","Ada Health, Babylon Health"],"دليل على enterprise readiness."),
+M("Flutter now supports which targets beyond mobile?",["Web, desktop, and embedded devices","Only web","Only desktop","None"],"من كود واحد."),
+M("Mobile apps serving as control hubs for thermostats and security systems relates to:",["IoT & Wearable Integration","Blockchain","Voice Interfaces","AR"],"صح."),
+M("Which technology enables real-time cloud processing through ultra-fast connectivity?",["5G","Blockchain","ARKit","Python"],"صح."),
+M("ARKit and ARCore are used for:",["Augmented Reality","Blockchain payments","Push notifications","Crash reporting"],"ARKit من Apple و ARCore من Google."),
+M("Cryptocurrency payments and NFT marketplaces relate to:",["Blockchain Integration","Voice Interfaces","5G","AR"],"صح."),
+// Page 7
+M("Google Pay reduced its development time by:",["60%","50%","40%","25%"],"باستخدام Flutter."),
+M("Google Pay supports over how many users?",["150 million","1 billion","2 billion","50 million"],"حسب الملف."),
+M("TikTok has grown to over how many users?",["1 billion","150 million","2 billion","500 million"],"صح."),
+M("Which architecture does TikTok use?",["Microservices","Monolithic","Peer-to-peer","Mainframe"],"للمعالجة اللحظية وتوزيع المحتوى عالميًا."),
+M("TikTok's API handles traffic spikes while keeping response times:",["Sub-second","Around 5 seconds","Around 1 minute","Unpredictable"],"صح."),
+M("Which apps use ML trained on millions of medical cases for preliminary assessments?",["Ada Health and Babylon Health","Google Pay and TikTok","Instagram and Spotify","Twitter and Pinterest"],"تشخيص عن بُعد بالذكاء الاصطناعي."),
+M("In healthcare apps, cloud-based backend services ensure:",["Patient data privacy and remote monitoring","Faster game graphics","Cheaper hardware","Voice control only"],"صح."),
+// Page 8
+M("Which platform has thousands of device models causing fragmentation?",["Android","iOS only","Windows Phone","Neither"],"بس iOS برضه عنده تحديات."),
+M("What ensures core functionality works across all devices while advanced features enhance capable hardware?",["Progressive enhancement","Certificate pinning","Lazy loading","A/B testing"],"صح."),
+M("Secure API communication uses:",["HTTPS and certificate pinning","Plain HTTP","FTP","Unencrypted sockets"],"مع end-to-end encryption."),
+M("Which regulations are mentioned for compliance?",["GDPR and CCPA","HIPAA only","ISO 9000","SOX"],"صح."),
+M("Lazy loading is part of:",["Performance optimization","Security auditing","Design systems","Deployment"],"مع caching وتقليل طلبات الشبكة."),
+M("Which are battery optimization techniques?",["Reducing CPU-intensive operations and managing location services judiciously","Increasing background processing","Constant GPS use","Disabling caching"],"صح."),
+M("A/B testing frameworks enable:",["Data-driven design decisions","Crash reporting","App store deployment","Wireframing"],"صح."),
+M("Crash reporting tools facilitate:",["Rapid bug resolution","Market research","Logo design","Cloud billing"],"صح."),
+M("Which is an Android automated testing framework?",["Espresso","XCTest","Mixpanel","Amplitude"],"XCTest لـ iOS."),
+M("Which is an iOS automated testing framework?",["XCTest","Espresso","Crashlytics","OWASP"],"صح."),
+M("Which is a performance monitoring tool?",["New Relic Mobile","Mixpanel","Espresso","XCTest"],"وكمان Firebase Performance و Crashlytics."),
+M("Which resource is listed under Security Tools?",["OWASP Mobile Security Testing Guide","Amplitude","Crashlytics","Espresso"],"مع static analysis tools."),
+M("Which is an analytics platform?",["Mixpanel","XCTest","New Relic Mobile","OWASP"],"وكمان Amplitude و Google Analytics for Firebase."),
+// Page 9
+M("Which future trend integrates work, health, finance, and entertainment?",["Digital Life Hubs","Cloud-First Development","Immersive Interfaces","Enhanced Developer Tools"],"صح."),
+M("Which trend provides continuous handoff and synchronized states across devices?",["Cross-Device Ecosystems","Immersive Interfaces","Digital Life Hubs","Cloud-First Development"],"صح."),
+M("Immersive Interfaces incorporate:",["AR, VR, voice control, and gesture recognition","Only touch screens","Only keyboards","Only voice calls"],"صح."),
+M("Enhanced Developer Tools include:",["AI-assisted coding, low-code platforms, automated testing","Manual testing only","Punch cards","Only native IDEs"],"صح."),
+M("Cloud-First Development relies on:",["Serverless architectures, edge computing, and AI-as-a-Service","Local servers only","Manual deployment","Desktop-only apps"],"صح."),
+// Page 10
+M("What does the document recommend as a first step?",["Master one cross-platform framework like Flutter or React Native","Learn every framework at once","Avoid AI integration","Only build native apps"],"صح."),
+M("Who does the future belong to?",["Developers combining technical expertise with user empathy","Only AI tools","Only large companies","Only native specialists"],"حسب الملف."),
+M("The document advises focusing on solving:",["Real user problems","Only visual effects","Only internal tools","Marketing slogans"],"صح.")
+];
+function sh(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function build(m){const t=TF.map(x=>({...x}));
+const c=MCQ.map(x=>{const o=sh(x.o.map((s,k)=>({s,k})));return{t:'mcq',q:x.q,o:o.map(z=>z.s),a:o.findIndex(z=>z.k===0),e:x.e}});
+let r=m==='tf'?t:m==='mcq'?c:t.concat(c);return document.getElementById('shuf').checked?sh(r):r}
+function start(m){mode=m;items=build(m);i=0;score=0;log=[];answered=false;
+document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.m===m));render()}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function render(){
+if(i>=items.length)return done();
+const it=items[i];
+const opts=it.t==='tf'?['True','False']:it.o;
+app.innerHTML=`<div class="card"><div class="bar"><i style="width:${i/items.length*100}%"></i></div>
+<div class="meta"><span>Question ${i+1} of ${items.length}</span><span>Score: ${score}</span></div>
+<p class="q">${esc(it.q)}</p>
+${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}
+<div id="fb"></div></div>`;
+app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(+b.dataset.k));answered=false}
+function pick(k){if(answered)return;answered=true;const it=items[i];
+const right=it.t==='tf'?(it.a?0:1):it.a;const ok=k===right;if(ok)score++;
+log.push({q:it.q,ok,ans:it.t==='tf'?(it.a?'True':'False'):it.o[it.a]});
+app.querySelectorAll('.opt').forEach((b,n)=>{b.disabled=true;if(n===right)b.classList.add('ok');else if(n===k)b.classList.add('bad')});
+document.getElementById('fb').innerHTML=`<div class="fb" dir="rtl"><b>${ok?'✅ صح!':'❌ غلط.'}</b> ${esc(it.e)}</div><button class="next" id="nx">${i+1<items.length?'Next →':'See results'}</button>`;
+document.getElementById('nx').onclick=()=>{i++;render()}}
+function done(){const p=Math.round(score/items.length*100);
+app.innerHTML=`<div class="card center"><div class="big">${score} / ${items.length}</div><p>${p}% — ${p>=80?'Excellent! 🎉':p>=60?'Good, keep practicing 👍':'Review the material and try again 📚'}</p>
+<button class="next" id="rt">Try again (reshuffled)</button></div>
+<div class="card"><b>Review</b>${log.map(l=>`<div class="rev"><b class="${l.ok?'ok':'bad'}">${l.ok?'✓':'✗'}</b> ${esc(l.q)}<br><small>Answer: ${esc(l.ans)}</small></div>`).join('')}</div>`;
+document.getElementById('rt').onclick=()=>start(mode)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>start(b.dataset.m));
+start('tf');
+</script>
+</body>
+</html>
